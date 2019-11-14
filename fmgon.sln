@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmgon", "fmgon.vcxproj", "{C25589FE-F3BF-4442-9B81-54E2129100FB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmgon_test", "fmgon_test.vcxproj", "{6276F28E-7835-4A90-AE30-55811CC7550A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{07149BCB-BE8A-4503-BE18-815D64233116} = {07149BCB-BE8A-4503-BE18-815D64233116}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "alut", "freealut-master\admin\VisualStudioDotNET\alut\alut.vcxproj", "{07149BCB-BE8A-4503-BE18-815D64233116}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +32,20 @@ Global
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Debug|x64.Build.0 = Debug|x64
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Debug|x86.ActiveCfg = Debug|Win32
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Debug|x86.Build.0 = Debug|Win32
+		{6276F28E-7835-4A90-AE30-55811CC7550A}.Debug|x86.Deploy.0 = Debug|Win32
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Release|x64.ActiveCfg = Release|x64
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Release|x64.Build.0 = Release|x64
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Release|x86.ActiveCfg = Release|Win32
 		{6276F28E-7835-4A90-AE30-55811CC7550A}.Release|x86.Build.0 = Release|Win32
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Debug|x64.ActiveCfg = Debug|x64
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Debug|x64.Build.0 = Debug|x64
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Debug|x86.ActiveCfg = Debug|Win32
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Debug|x86.Build.0 = Debug|Win32
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Debug|x86.Deploy.0 = Debug|Win32
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Release|x64.ActiveCfg = Release|x64
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Release|x64.Build.0 = Release|x64
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Release|x86.ActiveCfg = Release|Win32
+		{07149BCB-BE8A-4503-BE18-815D64233116}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,13 +10,13 @@
 //#include "types.h"
 
 // ---------------------------------------------------------------------------
-//  出力サンプルの型
+//  出力サンプルの型		Output Sample Type
 //
 #define FM_SAMPLETYPE   int16_t             // int16_t or int32_t
 
 // ---------------------------------------------------------------------------
-//  定数その１
-//  静的テーブルのサイズ
+//  定数その１				1st Constant
+//  静的テーブルのサイズ		Static Table Size
 
 #define FM_LFOBITS      8                   // 変更不可
 #define FM_TLBITS       7
@@ -27,7 +27,7 @@
 #define FM_LFOENTS      (1 << FM_LFOBITS)
 #define FM_TLPOS        (FM_TLENTS / 4)
 
-//  サイン波の精度は 2^(1/256)
+//  サイン波の精度は 2^(1/256)			Sine wave precision is 2^(1/256)
 #define FM_CLENTS       (0x1000 * 2)    // sin + TL + LFO
 
 // ---------------------------------------------------------------------------
@@ -101,15 +101,15 @@ namespace FM {
         uint32_t    PGCalc();
         uint32_t    PGCalcL();
 
-        uint32_t    dp_;            // ΔP
+        uint32_t    dp_;            // ΔP					Delta P
         uint32_t    detune_;        // Detune
         uint32_t    detune2_;       // DT2
         uint32_t    multiple_;      // Multiple
-        uint32_t    pg_count_;      // Phase 現在値
-        uint32_t    pg_diff_;       // Phase 差分値
-        int32_t     pg_diff_lfo_;   // Phase 差分値 >> x
+        uint32_t    pg_count_;      // Phase 現在値			Current Phase value
+        uint32_t    pg_diff_;       // Phase 差分値			Phase difference
+        int32_t     pg_diff_lfo_;   // Phase 差分値 >> x		Phase Difference >> x
 
-    //  Envelop Generator ---------------------------------------------------
+    //  Envelope Generator ---------------------------------------------------
         enum    EGPhase { next, attack, decay, sustain, release, off };
 
         void    EGCalc();
@@ -124,11 +124,11 @@ namespace FM {
         OpType      type_;      // OP の種類 (M, N...)
         uint32_t    bn_;        // Block/Note
         int         eg_level_;  // EG の出力値
-        int         eg_level_on_next_phase_;    // 次の eg_phase_ に移る値
-        int         eg_count_;      // EG の次の変移までの時間
-        int         eg_count_diff_; // eg_count_ の差分
-        int         eg_out_;        // EG+TL を合わせた出力値
-        int         tl_out_;        // TL 分の出力値
+        int         eg_level_on_next_phase_;    // 次の eg_phase_ に移る値		Value to move to on next eg_phase_
+        int         eg_count_;      // EG の次の変移までの時間					Time to next EG transition/sequence
+        int         eg_count_diff_; // eg_count_ の差分							Difference in eg_count_
+        int         eg_out_;        // EG+TL を合わせた出力値						Combined EG+TL output value
+        int         tl_out_;        // TL 分の出力値								TL output value
 //      int         pm_depth_;      // PM depth
 //      int         am_depth_;      // AM depth
         int         eg_rate_;
@@ -154,7 +154,7 @@ namespace FM {
 
         bool        keyon_;
         bool        amon_;          // enable Amplitude Modulation
-        bool        param_changed_; // パラメータが更新された
+        bool        param_changed_; // パラメータが更新された		Parameter Changed
         bool        mute_;
 
     //  Tables ---------------------------------------------------------------

@@ -25,7 +25,7 @@
 #define MASK_ALL        0x0F
 
 //////////////////////////////////////////////////////////////////////////////
-// Algorism number
+// Algorithm number
 
 #define ALGORITHM_0     0
 #define ALGORITHM_1     1
@@ -37,7 +37,7 @@
 #define ALGORITHM_7     7
 
 //////////////////////////////////////////////////////////////////////////////
-// YM2203 FM synthesizer timble structure.
+// YM2203 FM synthesizer timbre structure.
 
 struct YM2203_Timbre {
     uint8_t algorithm;                  // Algorithm
@@ -47,18 +47,18 @@ struct YM2203_Timbre {
     uint8_t dr[OPERATOR_NUM];           // Decay Rate
     uint8_t sr[OPERATOR_NUM];           // Sustain Rate
     uint8_t rr[OPERATOR_NUM];           // Release Rate
-    uint8_t sl[OPERATOR_NUM];           // Systain Level
+    uint8_t sl[OPERATOR_NUM];           // Sustain Level
     uint8_t tl[OPERATOR_NUM];           // Total Level
     uint8_t keyScale[OPERATOR_NUM];     // Key Scale
-    uint8_t multiple[OPERATOR_NUM];     // Multiple
+    uint8_t multiple[OPERATOR_NUM];     // Multiple  (Octave multiplier)
     int8_t  detune[OPERATOR_NUM];       // Detune
 
     // Amplitude Modulation Sensitivity (AMS)
     uint8_t     ams[OPERATOR_NUM]; 
 
-    uint8_t     waveForm;               // Wave Form
-    uint8_t     sync;                   // LFO Sync
-    uint16_t    speed;                  // LFO Speed
+    uint8_t     waveForm;               // LFO Waveform
+    uint8_t     sync;                   // LFO Sync  (Resync envelope?)
+    uint16_t    speed;                  // LFO Speed / Frequency
     int8_t      pmd;                    // Pitch Modulation Depth (PMD)
     int8_t      amd;                    // Amplitude Modulation Depth (AMD)
     uint8_t     pms;                    // Pitch Modulation Sensitivity (PMS)

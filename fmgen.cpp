@@ -222,12 +222,13 @@ void MakeLFOTable() {
 } // MakeLFOTable
 
 // ---------------------------------------------------------------------------
-//  チップ内で共通な部分
+//  チップ内で共通な部分			Common part in the chip
 //
 Chip::Chip()
     : ratio_(0), aml_(0), pml_(0), pmv_(0), optype_(typeN) { }
 
 //  クロック・サンプリングレート比に依存するテーブルを作成
+// Create a table that depends on the clock sampling rate ratio
 void Chip::SetRatio(uint32_t ratio) {
     if (ratio_ != ratio) {
         ratio_ = ratio;
@@ -321,6 +322,7 @@ void Operator::MakeTable() {
 //      printf("%4d, %d, %d\n", i, cltable[i*2], cltable[i*2+1]);
 
     // サインテーブルの作成
+	// Create a sine table
     double log2 = log(2.);
     for (i = 0; i < FM_OPSINENTS / 2; i++) {
         double r = (i * 2 + 1) * FM_PI / FM_OPSINENTS;
@@ -396,6 +398,7 @@ void Operator::Prepare() {
 }
 
 //  envelop の eg_phase_ 変更
+//  eg_phase_ envelope modification
 void Operator::ShiftPhase(EGPhase nextphase) {
     switch (nextphase) {
     case attack:        // Attack Phase
@@ -561,6 +564,7 @@ inline void FM::Operator::EGStep() {
     eg_count_ -= eg_count_diff_;
 
     // EG の変化は全スロットで同期しているという噂もある
+	// There are rumors that EG changes are synchronized across all slots
     if (eg_count_ <= 0)
         EGCalc();
 }
@@ -581,8 +585,8 @@ inline uint32_t FM::Operator::PGCalcL() {
     return ret /* + pmv * pg_diff_;*/;
 }
 
-//  OP 計算
-//  in: ISample (最大 8π)
+//  OP 計算		Operator Calculation
+//  in: ISample (最大 8π)		(Up to 8*PI)
 inline FM::ISample FM::Operator::Calc(ISample in) {
     EGStep();
     out2_ = out_;
@@ -619,8 +623,8 @@ inline FM::ISample FM::Operator::CalcN(uint32_t noise) {
     return out_;
 }
 
-//  OP (FB) 計算
-//  Self Feedback の変調最大 = 4π
+//  OP (FB) 計算						Operator Feedback Calculation
+//  Self Feedback の変調最大 = 4π		Maximum Modulation = 4*PI
 inline FM::ISample FM::Operator::CalcFB(uint32_t fb) {
     EGStep();
 
@@ -682,7 +686,7 @@ void Channel4::MakeTable() {
     }
 }
 
-// リセット
+// リセット		Reset
 void Channel4::Reset() {
     op[0].Reset();
     op[1].Reset();
@@ -690,7 +694,7 @@ void Channel4::Reset() {
     op[3].Reset();
 }
 
-//  Calc の用意
+//  Calc の用意		Prepare Calc
 int Channel4::Prepare() {
     op[0].Prepare();
     op[1].Prepare();
@@ -703,13 +707,13 @@ int Channel4::Prepare() {
     return key | lfo;
 }
 
-//  F-Number/BLOCK を設定
+//  F-Number/BLOCK を設定	Set F-Number/BLOCK
 void Channel4::SetFNum(uint32_t f) {
     for (int i = 0; i < 4; i++)
         op[i].SetFNum(f);
 }
 
-//  KC/KF を設定
+//  KC/KF を設定		Set KC/KF
 void Channel4::SetKCKF(uint32_t kc, uint32_t kf) {
     const static uint32_t kctable[16] = {
         5197, 5506, 5833, 6180, 6180, 6547, 6937, 7349,
@@ -763,7 +767,7 @@ void Channel4::SetAlgorithm(uint32_t algo) {
     algo_ = algo;
 }
 
-//  合成
+//  合成	Synthesis
 ISample Channel4::Calc() {
     int r;
     switch (algo_) {

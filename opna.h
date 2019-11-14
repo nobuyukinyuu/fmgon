@@ -14,70 +14,72 @@
 // ---------------------------------------------------------------------------
 //  class OPN/OPNA
 //  OPN/OPNA ‚É—Ç‚­—‚½‰¹‚ğ¶¬‚·‚é‰¹Œ¹ƒ†ƒjƒbƒg
+//	Sound generator unit that produces sounds similar to OPN / OPNA.
 //
 //  interface:
 //  bool Init(uint32_t clock, uint32_t rate, bool, const char* path);
-//      ‰Šú‰»D‚±‚ÌƒNƒ‰ƒX‚ğg—p‚·‚é‘O‚É‚©‚È‚ç‚¸ŒÄ‚ñ‚Å‚¨‚­‚±‚ÆD
-//      OPNA ‚Ìê‡‚Í‚±‚ÌŠÖ”‚ÅƒŠƒYƒ€ƒTƒ“ƒvƒ‹‚ğ“Ç‚İ‚Ş
+//      Initialization. Please call it before using this class.
+//		For OPNA, use this function to read the rhythm sample.
 //
-//      clock:  OPN/OPNA/OPNB ‚ÌƒNƒƒbƒNü”g”(Hz)
+//	clock:	OPN / OPNA / OPNB clock frequency (Hz)
 //
-//      rate:   ¶¬‚·‚é PCM ‚Ì•W–{ü”g”(Hz)
+//	rate:	Generated PCM sample frequency (Hz)
 //
-//      path:   ƒŠƒYƒ€ƒTƒ“ƒvƒ‹‚ÌƒpƒX(OPNA ‚Ì‚İ—LŒø)
-//              È—ª‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç“Ç‚İ‚Ş
-//              •¶š—ñ‚Ì––”ö‚É‚Í '\' ‚â '/' ‚È‚Ç‚ğ‚Â‚¯‚é‚±‚Æ
+//	path:	Rhythm sample path (only valid for OPNA)
+//			If omitted, read from current directory
+//			Add '\' or '/' to the end of the string
 //
-//      •Ô‚è’l  ‰Šú‰»‚É¬Œ÷‚·‚ê‚Î true
+//			Returns true if initialization is successful
 //
-//  bool LoadRhythmSample(const char* path)
-//      (OPNA ONLY)
-//      Rhythm ƒTƒ“ƒvƒ‹‚ğ“Ç‚İ’¼‚·D
-//      path ‚Í Init ‚Ì path ‚Æ“¯‚¶D
+// bool LoadRhythmSample (const char * path)
+//		(OPNA ONLY)
+//		Reread the Rhythm sample.
+//		path is the same as Init's path.
 //
-//  bool SetRate(uint32_t clock, uint32_t rate, bool)
-//      ƒNƒƒbƒN‚â PCM ƒŒ[ƒg‚ğ•ÏX‚·‚é
-//      ˆø”“™‚Í Init ‚ğQÆ‚Ì‚±‚ÆD
+// bool SetRate (uint32_t clock, uint32_t rate, bool)
+//		Change clock or PCM rate.
+//		See Init for arguments etc.
 //
-//  void Mix(FM_SAMPLETYPE* dest, int nsamples)
-//      Stereo PCM ƒf[ƒ^‚ğ nsamples •ª‡¬‚µC dest ‚Ån‚Ü‚é”z—ñ‚É
-//      ‰Á‚¦‚é(‰ÁZ‚·‚é)
-//      Edest ‚É‚Í sample*2 ŒÂ•ª‚Ì—Ìˆæ‚ª•K—v
-//      EŠi”[Œ`®‚Í L, R, L, R... ‚Æ‚È‚éD
-//      E‚ ‚­‚Ü‚Å‰ÁZ‚È‚Ì‚ÅC‚ ‚ç‚©‚¶‚ß”z—ñ‚ğƒ[ƒƒNƒŠƒA‚·‚é•K—v‚ª‚ ‚é
-//      EFM_SAMPLETYPE ‚ª short Œ^‚Ìê‡ƒNƒŠƒbƒsƒ“ƒO‚ªs‚í‚ê‚é.
-//      E‚±‚ÌŠÖ”‚Í‰¹Œ¹“à•”‚Ìƒ^ƒCƒ}[‚Æ‚Í“Æ—§‚µ‚Ä‚¢‚éD
-//        Timer ‚Í Count ‚Æ GetNextEvent ‚Å‘€ì‚·‚é•K—v‚ª‚ ‚éD
+// void Mix (FM_SAMPLETYPE * dest, int nsamples)
+//		Synthesize Stereo PCM data for nsamples and added to the array starting with dest.
+//		(Addition)
+// ø dest needs an area of ??sample * 2
+// ø The storage format is L, R, L, R ...
+// ø Because it is just addition, it is necessary to clear the array to zero beforehand
+// ø If FM_SAMPLETYPE is short type, clipping is performed.
+// ø This function is independent of the internal timer.
+// Timer needs to be manipulated with Count and GetNextEvent.
 //
-//  void Reset()
-//      ‰¹Œ¹‚ğƒŠƒZƒbƒg(‰Šú‰»)‚·‚é
+// void Reset ()
+// reset (initialize) the sound source
 //
-//  void SetReg(uint32_t reg, uint32_t data)
-//      ‰¹Œ¹‚ÌƒŒƒWƒXƒ^ reg ‚É data ‚ğ‘‚«‚Ş
+// void SetReg (uint32_t reg, uint32_t data)
+// Write data to the register reg of the sound source
 //
-//  uint32_t GetReg(uint32_t reg)
-//      ‰¹Œ¹‚ÌƒŒƒWƒXƒ^ reg ‚Ì“à—e‚ğ“Ç‚İo‚·
-//      “Ç‚İ‚Ş‚±‚Æ‚ªo—ˆ‚éƒŒƒWƒXƒ^‚Í PSG, ADPCM ‚Ìˆê•”CID(0xff) ‚Æ‚©
+// uint32_t GetReg (uint32_t reg)
+// Read the contents of the register reg of the sound source
+// Readable registers are part of PSG, ADPCM, ID (0xff)
 //
-//  uint32_t ReadStatus()/ReadStatusEx()
-//      ‰¹Œ¹‚ÌƒXƒe[ƒ^ƒXƒŒƒWƒXƒ^‚ğ“Ç‚İo‚·
-//      ReadStatusEx ‚ÍŠg’£ƒXƒe[ƒ^ƒXƒŒƒWƒXƒ^‚Ì“Ç‚İo‚µ(OPNA)
-//      busy ƒtƒ‰ƒO‚Íí‚É 0
+// uint32_t ReadStatus () / ReadStatusEx ()
+// Read sound source status register
+// ReadStatusEx reads the extended status register (OPNA)
+// busy flag is always 0
 //
-//  bool Count(uint32_t t)
-//      ‰¹Œ¹‚Ìƒ^ƒCƒ}[‚ğ t [ƒÊ•b] i‚ß‚éD
-//      ‰¹Œ¹‚Ì“à•”ó‘Ô‚É•Ï‰»‚ª‚ ‚Á‚½(timer ƒI[ƒo[ƒtƒ[)
-//      true ‚ğ•Ô‚·
+// bool Count (uint32_t t)
+// Advance the sound source timer by t [?s].
+// When the internal state of the sound source has changed (timer overflow)
+// returns true
 //
-//  uint32_t GetNextEvent()
-//      ‰¹Œ¹‚Ìƒ^ƒCƒ}[‚Ì‚Ç‚¿‚ç‚©‚ªƒI[ƒo[ƒtƒ[‚·‚é‚Ü‚Å‚É•K—v‚È
-//      ŠÔ[ƒÊ•b]‚ğ•Ô‚·
-//      ƒ^ƒCƒ}[‚ª’â~‚µ‚Ä‚¢‚éê‡‚Í ULONG_MAX ‚ğ•Ô‚·c ‚Æv‚¤
+// uint32_t GetNextEvent ()
+// Necessary until one of the sound source timers overflows
+// returns time [?s]
+// If the timer is stopped, return ULONG_MAX ...
 //
-//  void SetVolumeFM(int db)/SetVolumePSG(int db) ...
-//      Še‰¹Œ¹‚Ì‰¹—Ê‚ğ{|•ûŒü‚É’²ß‚·‚éD•W€’l‚Í 0.
-//      ’PˆÊ‚Í–ñ 1/2 dBC—LŒø”ÍˆÍ‚ÌãŒÀ‚Í 20 (10dB)
+// void SetVolumeFM (int db) / SetVolumePSG (int db) ...
+// Adjust the volume of each sound source in the +-direction. The standard value is 0.
+// Unit is about 1/2 dB, upper limit of effective range is 20 (10dB)
 //
+
 namespace FM {
     //  OPN Base -------------------------------------------------------
     class OPNBase : public Timer {

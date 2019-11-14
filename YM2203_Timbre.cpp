@@ -17,6 +17,8 @@ void YM2203_Timbre::set(const int16_t array[5][10]) {
     feedback    = (array[0][0] >> 3) & 0x07;
     opMask      =  array[0][1] & 0x0F;
     // [0][2-7] : ビブラート、トレモロ関係
+	// [0][2-7] : Vibrato, Tremolo relationship
+
     ams[OPERATOR_1] = (uint8_t)array[1][9];
     ams[OPERATOR_2] = (uint8_t)array[2][9];
     ams[OPERATOR_3] = (uint8_t)array[3][9];
@@ -27,8 +29,9 @@ void YM2203_Timbre::set(const int16_t array[5][10]) {
     pmd         = int8_t(array[0][5]);
     amd         = int8_t(array[0][6]);
     pms         = uint8_t(array[0][7]);
-    // [0][8,9] : 未使用
-    // [1-4][9] : ビブラート関係の設定は未対応
+    // [0][8,9] : 未使用							Unused
+
+    // [1-4][9] : ビブラート関係の設定は未対応		Vibrato settings are not supported
     setAR((uint8_t)array[1][0], (uint8_t)array[2][0], (uint8_t)array[3][0], (uint8_t)array[4][0]);
     setDR((uint8_t)array[1][1], (uint8_t)array[2][1], (uint8_t)array[3][1], (uint8_t)array[4][1]);
     setSR((uint8_t)array[1][2], (uint8_t)array[2][2], (uint8_t)array[3][2], (uint8_t)array[4][2]);

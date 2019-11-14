@@ -298,7 +298,10 @@ void VskPhrase::realize(VskSoundPlayer *player) {
                     ym.set_timbre(ch, &timbre);
                     lc.init_for_timbre(&timbre);
                     tone = new_tone;
-                }
+				} else {  // -1 specified.  Set timbre based on whatever's already there.  Don't set from tone library.
+					ym.set_timbre(ch, &timbre);
+					lc.init_for_timbre(&timbre);
+				}
 
                 ym.set_pitch(ch, note.m_octave, note.m_key);
                 ym.set_volume(ch, int(note.m_volume));
